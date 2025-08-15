@@ -8,7 +8,7 @@ import { TErrorSource, TGenericErrorResponse } from "../interfaces/error.type"
       const errorsSoursc : TErrorSource [] = []
     err.issues.forEach((issue: any) =>{
       errorsSoursc.push({
-        path: issue.path(issue.path.length -1),
+        path: issue.path[issue.path.length - 1],
         message: issue.message
       })
     })

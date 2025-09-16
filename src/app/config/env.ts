@@ -19,12 +19,19 @@ interface EnvConfig {
   GOOGLE_CALLBACK_URL:string
   FRONTEND_URL:string
   EXPRESS_SESSION_SECRET:string
+  SSL:{
+    STORE_ID:string
+    STORE_PASS:string
+    SSL_PAYMENT_API:string
+    SSL_VALIDATION_API:string
+  }
 }
 
 const loadEnvVariable = () : EnvConfig =>{
     const requiredEnv: string[] = ["PORT", "DB_URL", "NODE_ENV","BCRYPT_SALT_ROUND",
       "JWT_ACCESS_SECRET","JWT_ACCESS_EXPIRES","SUPER_ADMIN_EMAIL","SUPER_ADMIN_PASS","JWT_REFRESH_SECRET",
-      "JWT_REFRESH_EXPIRES","GOOGLE_CLIENT_ID","GOOGLE_CLIENT_SECRET","GOOGLE_CALLBACK_URL","FRONTEND_URL","EXPRESS_SESSION_SECRET"]
+      "JWT_REFRESH_EXPIRES","GOOGLE_CLIENT_ID","GOOGLE_CLIENT_SECRET","GOOGLE_CALLBACK_URL","FRONTEND_URL",
+      "EXPRESS_SESSION_SECRET","STORE_ID","STORE_PASS","SSL_PAYMENT_API","SSL_VALIDATION_API"]
      requiredEnv.forEach(key =>{
         if(!process.env[key]){
             throw new Error(`Missing require enviroment variable ${key}`)
@@ -46,8 +53,13 @@ const loadEnvVariable = () : EnvConfig =>{
      GOOGLE_CLIENT_SECRET:process.env.GOOGLE_CLIENT_SECRET as string,
      GOOGLE_CALLBACK_URL:process.env.GOOGLE_CALLBACK_URL as string,
      FRONTEND_URL:process.env.FRONTEND_URL as string,
-     EXPRESS_SESSION_SECRET:process.env.EXPRESS_SESSION_SECRET as string 
-
+     EXPRESS_SESSION_SECRET:process.env.EXPRESS_SESSION_SECRET as string, 
+     SSL:{
+          STORE_ID:process.env.STORE_ID as string,
+          STORE_PASS:process.env.STORE_PASS as string,
+          SSL_PAYMENT_API:process.env.SSL_PAYMENT_API as string,
+          SSL_VALIDATION_API:process.env.SSL_VALIDATION_API as string
+         }
     }
 }
 export const envVars = loadEnvVariable()

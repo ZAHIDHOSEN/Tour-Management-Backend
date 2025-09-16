@@ -32,7 +32,7 @@ export const updateUserZodSchema = z.object({
            .min(8, { message: "Password must be at least 8 characters" })
            .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/, {
             message: "Password must contain uppercase, lowercase, number, and special character"
-        }),
+        }).optional(),
 
           phoneNumber :z.string().regex(/^(?:\+88|88)?01[3-9]\d{8}$/,{message:"must be bangladeshi phone number"})
           .optional(),

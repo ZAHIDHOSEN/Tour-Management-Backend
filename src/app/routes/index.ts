@@ -5,6 +5,8 @@ import { DivisionRoute } from "../modules/division/division.route"
 import { TourRoute } from "../modules/tour/tour.routes"
 import { BookingRoute } from "../modules/booking/booking.route"
 
+import { PaymentRoute } from "../modules/payment/payment.route"
+
 
 
 
@@ -30,6 +32,10 @@ const modulesRoute = [
     {
         path: "/booking",
         route: BookingRoute
+    },
+    {
+        path:"/payment",
+        route: PaymentRoute
     }
 ]
 

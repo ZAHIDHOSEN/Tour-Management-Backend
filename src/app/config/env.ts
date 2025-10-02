@@ -24,6 +24,12 @@ interface EnvConfig {
     STORE_PASS:string
     SSL_PAYMENT_API:string
     SSL_VALIDATION_API:string
+    SSL_SUCCESS_BACKEND_URL:string
+    SSL_FAIL_BACKEND_URL:string
+    SSL_CANCEL_BACKEND_URL:string
+    SSL_SUCCESS_FRONTEND_URL:string
+    SSL_FAIL_FRONTEND_URL:string
+    SSL_CANCEL_FRONTEND_URL:string
   }
 }
 
@@ -31,7 +37,9 @@ const loadEnvVariable = () : EnvConfig =>{
     const requiredEnv: string[] = ["PORT", "DB_URL", "NODE_ENV","BCRYPT_SALT_ROUND",
       "JWT_ACCESS_SECRET","JWT_ACCESS_EXPIRES","SUPER_ADMIN_EMAIL","SUPER_ADMIN_PASS","JWT_REFRESH_SECRET",
       "JWT_REFRESH_EXPIRES","GOOGLE_CLIENT_ID","GOOGLE_CLIENT_SECRET","GOOGLE_CALLBACK_URL","FRONTEND_URL",
-      "EXPRESS_SESSION_SECRET","STORE_ID","STORE_PASS","SSL_PAYMENT_API","SSL_VALIDATION_API"]
+      "EXPRESS_SESSION_SECRET","STORE_ID","STORE_PASS","SSL_PAYMENT_API","SSL_VALIDATION_API","SSL_SUCCESS_BACKEND_URL",
+      "SSL_FAIL_BACKEND_URL","SSL_CANCEL_BACKEND_URL","SSL_SUCCESS_FRONTEND_URL","SSL_FAIL_FRONTEND_URL","SSL_CANCEL_FRONTEND_URL"
+    ]
      requiredEnv.forEach(key =>{
         if(!process.env[key]){
             throw new Error(`Missing require enviroment variable ${key}`)
@@ -58,7 +66,13 @@ const loadEnvVariable = () : EnvConfig =>{
           STORE_ID:process.env.STORE_ID as string,
           STORE_PASS:process.env.STORE_PASS as string,
           SSL_PAYMENT_API:process.env.SSL_PAYMENT_API as string,
-          SSL_VALIDATION_API:process.env.SSL_VALIDATION_API as string
+          SSL_VALIDATION_API:process.env.SSL_VALIDATION_API as string,
+          SSL_SUCCESS_BACKEND_URL:process.env.SSL_SUCCESS_BACKEND_URL as string,
+          SSL_FAIL_BACKEND_URL:process.env.SSL_FAIL_BACKEND_URL as string,
+          SSL_CANCEL_BACKEND_URL:process.env.SSL_CANCEL_BACKEND_URL as string,
+          SSL_SUCCESS_FRONTEND_URL:process.env.SSL_SUCCESS_FRONTEND_URL as string,
+          SSL_FAIL_FRONTEND_URL:process.env.SSL_FAIL_FRONTEND_URL as string,
+          SSL_CANCEL_FRONTEND_URL:process.env.SSL_CANCEL_FRONTEND_URL as string
          }
     }
 }

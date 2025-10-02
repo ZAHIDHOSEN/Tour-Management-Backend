@@ -73,6 +73,7 @@ export class queryBuilder<T> {
 
       const page = Number(this.query.page) || 1
         const limit = Number(this.query.limit) || 10
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const skip = (page-1) *limit
 
         const totalPage = Math.ceil(totalDocuments / limit)

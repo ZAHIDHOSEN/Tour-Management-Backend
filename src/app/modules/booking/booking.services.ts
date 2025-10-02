@@ -1,3 +1,6 @@
+
+import { ISSLCommerz } from "../../../sslCommerz/sslCommerz.interface";
+import { SSLService } from "../../../sslCommerz/sslCommerz.services";
 import AppError from "../../errHelpers/appError"
 import { PAYMENT_STATUS } from "../payment/payment.interface";
 import { Payment } from "../payment/payment.model";
@@ -60,10 +63,39 @@ const createBooking = async(payload: Partial<IBooking>,userId: string) =>{
       {new: true, runValidators:true, session}
     ).populate("user","name email phoneNumber address").populate("tour","title costForm").populate("payment")
     
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const userAddress = (updatedBooking?.user as any).address
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const userEmail = (updatedBooking?.user as any).email
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const userPhoneNUmber = (updatedBooking?.user as any).phoneNumber
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const userName = (updatedBooking?.user as any).name
+
+
+    const sslPayload: ISSLCommerz = {
+      address: userAddress,
+      email:userEmail,
+      phoneNumber:userPhoneNUmber,
+      name:userName,
+      amount:amount,
+      transactionId:transactionId
+    }
+    const sslPayment = await SSLService.sslPaymentInit(sslPayload)
+    console.log(sslPayment)
+    
+
+
+
+
     await session.commitTransaction();
     session.endSession()
 
-    return updatedBooking
+    return {
+      paymentUrl:sslPayment.GatewayPageURL,
+      booking:updatedBooking,
+    }
       
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
     } catch (error) {

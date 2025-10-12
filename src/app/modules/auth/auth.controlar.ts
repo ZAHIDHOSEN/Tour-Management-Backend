@@ -112,6 +112,30 @@ const logout = catchAsync(async(req:Request, res:Response, next: NextFunction)=>
 
      })
 })
+
+// change pass
+const changePassword = catchAsync(async(req:Request, res:Response, next: NextFunction)=>{
+    
+  
+  
+   const newPassword = req.body.newSetPassword
+   
+   const oldPassword = req.body.oldPassword
+   
+    const decodedToken = req.user
+   const newSetPassword = await AuthServices.resetPassword(oldPassword,newPassword,decodedToken as JwtPayload) 
+  
+       sendResponse(res,{
+        success: true,
+        statusCode: httpStatus.CREATED,
+        message: "password changed successfully",
+        data: null
+
+
+     })
+})
+
+// reset passs
 const resetPassword = catchAsync(async(req:Request, res:Response, next: NextFunction)=>{
     
   
@@ -132,6 +156,28 @@ const resetPassword = catchAsync(async(req:Request, res:Response, next: NextFunc
 
      })
 })
+
+// set password
+const setPassword = catchAsync(async(req:Request, res:Response, next: NextFunction)=>{
+    
+  
+  
+
+   const {password} = req.body
+    const decodedToken = req.user as JwtPayload
+    await AuthServices.setPassword(decodedToken.userId, password ) 
+  
+       sendResponse(res,{
+        success: true,
+        statusCode: httpStatus.CREATED,
+        message: "password changed successfully",
+        data: null
+
+
+     })
+})
+
+
 const googleCallback = catchAsync(async(req:Request, res:Response, next: NextFunction)=>{
     let redirectTo = req.query.state ? req.query.state as string : ""
     if(redirectTo.startsWith("/")){
@@ -162,5 +208,7 @@ export const AuthControlar = {
     getNewAccessToken,
     logout,
     resetPassword,
+    setPassword,
+    changePassword,
     googleCallback
 }

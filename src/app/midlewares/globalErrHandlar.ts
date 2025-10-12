@@ -8,16 +8,30 @@ import { handleCastError } from "../helperFunction/handleCastError";
 import { handleZodError } from "../helperFunction/handleZodError";
 import { handleValidationError } from "../helperFunction/handleValidationError";
 import { TErrorSource } from "../interfaces/error.type";
+import { deleteFromCloudinary } from "../config/cloudinary.config";
 
 
 
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-export const  globalErrHandler =  (err: any, req: Request, res: Response ,next: NextFunction)=>{
+export const  globalErrHandler =  async(err: any, req: Request, res: Response ,next: NextFunction)=>{
    if(envVars.NODE_ENV === "development"){
      console.log(err);
    }
+  
+   
+  //  single file er jonno
+   if(req.file){
+    await deleteFromCloudinary(req.file.path)
+   }
+
+  //  multiple file er jonno
+  if(req.files && Array.isArray(req.files) && req.files.length){
+    const imageUrl = (req.files as Express.Multer.File[]).map(file=>file.path)
+    await Promise.all(imageUrl.map(url => deleteFromCloudinary(url)))
+  }
+
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let errorsSoursc :TErrorSource[] = [

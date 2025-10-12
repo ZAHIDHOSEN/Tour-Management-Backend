@@ -2,6 +2,7 @@
 import { ISSLCommerz } from "../../../sslCommerz/sslCommerz.interface";
 import { SSLService } from "../../../sslCommerz/sslCommerz.services";
 import AppError from "../../errHelpers/appError"
+import { getTransactionId } from "../../utilis/getTransaction";
 import { PAYMENT_STATUS } from "../payment/payment.interface";
 import { Payment } from "../payment/payment.model";
 import { Tour } from "../tour/tour.models";
@@ -12,11 +13,7 @@ import  httpStatus  from 'http-status-codes';
 
 
 
-const getTransactionId = () =>{
 
-    return `tran_${Date.now()}_${Math.floor(Math.random()*1000)}`
-
-}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createBooking = async(payload: Partial<IBooking>,userId: string) =>{

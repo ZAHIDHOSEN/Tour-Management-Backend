@@ -30,6 +30,9 @@ export const checkAuth = (...authRoles: string[]) => async(req:Request, res:Resp
           throw new AppError(httpStatus.BAD_REQUEST,"User is Deleted")
 
          }
+         if(!isUserExit.isVerified){
+          throw new AppError(httpStatus.BAD_REQUEST,"User is Verified")
+         }
    
        if(!authRoles.includes(verifiedToken.role)){
            throw new AppError(403, "You are not permitted to view data")

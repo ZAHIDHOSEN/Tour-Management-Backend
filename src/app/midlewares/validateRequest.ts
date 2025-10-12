@@ -5,7 +5,10 @@ import { ZodObject } from "zod"
 export const validateRequest = (zodSchema: ZodObject) => async (req:Request, res:Response, next:NextFunction)=>{
    
     try{
-        console.log(req.body);
+        if(req.body.data){
+            req.body = JSON.parse(req.body.data)
+        }
+    // console.log(req.body);
     req.body = await zodSchema.parseAsync(req.body)
     
      next()

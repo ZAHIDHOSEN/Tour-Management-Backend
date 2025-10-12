@@ -11,8 +11,14 @@ import { ITour } from "./tour.interface";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createTour = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
-
-    const tour = await tourServices.createTour(req.body)
+    
+     const payload:ITour={
+        ...req.body,
+        images:(req.files as Express.Multer.File[]).map(file=>{
+            return file.path
+        })
+     }
+    const tour = await tourServices.createTour(payload)
 
      sendResponse(res,{
         success: true,
@@ -43,8 +49,13 @@ const createTour = catchAsync(async(req:Request,res:Response,next:NextFunction)=
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const updateTour = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
 
-    const {id} = req.params
-    const payload :Partial<ITour>= req.body
+    const id = req.params.id
+       const payload:ITour={
+        ...req.body,
+        images:(req.files as Express.Multer.File[]).map(file=>{
+            return file.path
+        })
+     }
 
     const updatedTour = await tourServices.updateTour(id,payload)
 

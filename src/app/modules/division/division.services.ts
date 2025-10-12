@@ -6,6 +6,7 @@ import  httpStatus  from 'http-status-codes';
 
 import { Role } from "../user/user.interface";
 import { Tour } from "../tour/tour.models";
+import { deleteFromCloudinary } from "../../config/cloudinary.config";
 
 
 const createDivision = async(payload: Partial<IDivision>) =>{
@@ -84,6 +85,9 @@ const updateDivision = async(divisionId:string, payload:Partial<IDivision>) =>{
     new: true,
     runValidators: true,
   });
+    if(payload.thumbnail && isDivisionExits.thumbnail){
+      await deleteFromCloudinary(isDivisionExits.thumbnail)
+    }
 
   return updatedDivision
 

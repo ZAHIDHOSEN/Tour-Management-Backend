@@ -27,7 +27,7 @@ export const createDivisionZodScheme = z.object({
 
 
 export const updateDivisionZodSchema = z.object({
-  name: z.string().min(2, { message: "Name is required" }),
+  name: z.string().min(2, { message: "Name is required" }).optional(),
   slug: z.string().min(2, { message: "slug is required" }).optional(),
   thumbnail: z.string().url().optional(),
   description: z.string().optional(),

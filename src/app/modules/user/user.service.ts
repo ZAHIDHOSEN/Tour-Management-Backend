@@ -66,6 +66,8 @@ const newUpdatedUser = await User.findByIdAndUpdate(userId,payload,{new: true,ru
 
 return newUpdatedUser
 }
+
+
 const getAllUser = async() =>{
     const users = await User.find({})
     const totalUser = await User.countDocuments()
@@ -76,9 +78,19 @@ const getAllUser = async() =>{
       }
     }
 }
+
+const getMe = async(userId:string) =>{
+   const user = await User.findById(userId).select("-password")
+
+
+   return {
+    data:user
+   }
+}
 export const userServices = {
     createUser,
     getAllUser,
-    updateUser
+    updateUser,
+    getMe
     
 }

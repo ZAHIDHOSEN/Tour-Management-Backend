@@ -4,20 +4,28 @@ import { divisionServices } from "./division.services";
 import { sendResponse } from "../../utilis/sendResponse";
 import  httpStatus  from 'http-status-codes';
 import { JwtPayload } from "jsonwebtoken";
+import { IDivision } from "./division.interface";
 
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createDivision = catchAsync(async(req:Request,res:Response, next:NextFunction)=>{
+    
+   const payload:IDivision = {
+      ...req.body,
+      thumbnail:req.file?.path
+   }
+    const division = await divisionServices.createDivision(payload)
+    console.log(division)
+ 
+  
 
-    const division = await divisionServices.createDivision(req.body)
-    console.log(division);
 
      sendResponse(res,{
         success: true,
         statusCode: httpStatus.CREATED,
         message: "divisionCreated Successfully",
-        data: division,
+        data: division
 
 
      })
@@ -27,14 +35,17 @@ const createDivision = catchAsync(async(req:Request,res:Response, next:NextFunct
 const updateDivision = catchAsync(async(req:Request, res:Response, next: NextFunction)=>{
     const divisionId = req.params.id
 
-     const payload = req.body
-    const division = await divisionServices.updateDivision(divisionId,payload)
+     const payload: IDivision = {
+      ...req.body,
+      thumbnail:req.file?.path
+     } 
+    const updateDivision = await divisionServices.updateDivision(divisionId,payload)
 
      sendResponse(res,{
         success: true,
         statusCode: httpStatus.CREATED,
         message: "divisionUpdated Successfully",
-        data: division,
+        data: updateDivision,
 
 
      })

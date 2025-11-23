@@ -7,7 +7,7 @@ import { AuthServices } from "./auth.service";
 import { sendResponse } from "../../utilis/sendResponse";
 import AppError from "../../errHelpers/appError";
 import { setAuthCookie } from "../../utilis/setCookie";
-import { JwtPayload } from "jsonwebtoken";
+import { Jwt, JwtPayload } from "jsonwebtoken";
 import { createUserTokens } from "../../utilis/userTokens";
 import { envVars } from "../../config/env";
 import passport from "passport";
@@ -123,7 +123,7 @@ const changePassword = catchAsync(async(req:Request, res:Response, next: NextFun
    const oldPassword = req.body.oldPassword
    
     const decodedToken = req.user
-   const newSetPassword = await AuthServices.resetPassword(oldPassword,newPassword,decodedToken as JwtPayload) 
+   const newSetPassword = await AuthServices.changePassword(oldPassword,newPassword,decodedToken as JwtPayload) 
   
        sendResponse(res,{
         success: true,
@@ -135,22 +135,19 @@ const changePassword = catchAsync(async(req:Request, res:Response, next: NextFun
      })
 })
 
-// reset passs
+// reset pass
 const resetPassword = catchAsync(async(req:Request, res:Response, next: NextFunction)=>{
     
+  const payload = req.body
+  const decodedToken = req.user
+
+  await AuthServices.resetPassword(payload,decodedToken as JwtPayload)
   
-  
-   const newPassword = req.body.newSetPassword
-   
-   const oldPassword = req.body.oldPassword
-   
-    const decodedToken = req.user
-   const newSetPassword = await AuthServices.resetPassword(oldPassword,newPassword,decodedToken as JwtPayload) 
   
        sendResponse(res,{
         success: true,
         statusCode: httpStatus.CREATED,
-        message: "password changed successfully",
+        message: "password reset successfully",
         data: null
 
 
@@ -170,7 +167,24 @@ const setPassword = catchAsync(async(req:Request, res:Response, next: NextFuncti
        sendResponse(res,{
         success: true,
         statusCode: httpStatus.CREATED,
-        message: "password changed successfully",
+        message: "password set successfully",
+        data: null
+
+
+     })
+})
+
+// forgot password
+const forgotPassword = catchAsync(async(req:Request, res:Response, next: NextFunction)=>{
+    
+  const {email} = req.body
+  
+    await AuthServices.forgotPassword(email) 
+  
+       sendResponse(res,{
+        success: true,
+        statusCode: httpStatus.CREATED,
+        message: "Email send successfully",
         data: null
 
 
@@ -209,6 +223,7 @@ export const AuthControlar = {
     logout,
     resetPassword,
     setPassword,
+    forgotPassword,
     changePassword,
     googleCallback
 }

@@ -14,6 +14,10 @@ router.post("/logout",AuthControlar.logout)
 router.post("/change-password",checkAuth(...Object.values(Role)),AuthControlar.changePassword)
 router.post("/reset-password",checkAuth(...Object.values(Role)),AuthControlar.resetPassword)
 router.post("/set-password",checkAuth(...Object.values(Role)),AuthControlar.setPassword)
+router.post("/forgot-password",AuthControlar.forgotPassword)
+
+
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.get("/google",async(req:Request, res:Response, next: NextFunction)=>{
     const redirect = req.query.redirect || "/"

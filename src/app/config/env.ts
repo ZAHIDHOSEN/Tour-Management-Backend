@@ -35,6 +35,19 @@ interface EnvConfig {
     CLOUDINARY_CLOUD_NAME:string
     CLOUDINARY_API_KEY:string
     CLOUDINARY_API_SECRET:string
+  },
+  EMAIL_SENDER:{
+    SMTP_HOST:string
+    SMTP_PORT:string
+    SMTP_PASS:string
+    SMTP_USER:string
+    SMTP_FROM:string
+  },
+  REDIS:{
+    REDIS_USERNAME:string
+    REDIS_PASSWORD:string
+    REDIS_HOST:string
+    REDIS_PORT:string
   }
 }
 
@@ -44,7 +57,8 @@ const loadEnvVariable = () : EnvConfig =>{
       "JWT_REFRESH_EXPIRES","GOOGLE_CLIENT_ID","GOOGLE_CLIENT_SECRET","GOOGLE_CALLBACK_URL","FRONTEND_URL",
       "EXPRESS_SESSION_SECRET","STORE_ID","STORE_PASS","SSL_PAYMENT_API","SSL_VALIDATION_API","SSL_SUCCESS_BACKEND_URL",
       "SSL_FAIL_BACKEND_URL","SSL_CANCEL_BACKEND_URL","SSL_SUCCESS_FRONTEND_URL","SSL_FAIL_FRONTEND_URL","SSL_CANCEL_FRONTEND_URL",
-      "CLOUDINARY_CLOUD_NAME","CLOUDINARY_API_KEY","CLOUDINARY_API_SECRET"
+      "CLOUDINARY_CLOUD_NAME","CLOUDINARY_API_KEY","CLOUDINARY_API_SECRET","SMTP_HOST","SMTP_PORT","SMTP_PASS","SMTP_USER","SMTP_FROM",
+      "REDIS_USERNAME","REDIS_PASSWORD","REDIS_HOST","REDIS_PORT"
     ]
      requiredEnv.forEach(key =>{
         if(!process.env[key]){
@@ -84,6 +98,21 @@ const loadEnvVariable = () : EnvConfig =>{
           CLOUDINARY_CLOUD_NAME:process.env.CLOUDINARY_CLOUD_NAME as string,
           CLOUDINARY_API_KEY:process.env.CLOUDINARY_API_KEY as string,
           CLOUDINARY_API_SECRET:process.env.CLOUDINARY_API_SECRET as string
+
+         },
+         EMAIL_SENDER:{
+          SMTP_HOST:process.env.SMTP_HOST as string,
+          SMTP_PORT:process.env.SMTP_PORT as string,
+          SMTP_PASS:process.env. SMTP_PASS as string,
+          SMTP_USER:process.env.SMTP_USER as string,
+           SMTP_FROM:process.env. SMTP_FROM as string
+
+         },
+         REDIS:{
+          REDIS_USERNAME:process.env.REDIS_USERNAME as string,
+          REDIS_PASSWORD:process.env.REDIS_PASSWORD as string,
+          REDIS_HOST:process.env.REDIS_HOST as string,
+          REDIS_PORT:process.env.REDIS_PORT as string,
 
          }
     }

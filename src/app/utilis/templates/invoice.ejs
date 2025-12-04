@@ -1,0 +1,55 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+</head>
+<body>
+
+    <h1>Invoice for Booking</h1>
+
+    <p><strong>Payment ID:</strong> <%= transactionId %></p>
+
+    <p><strong>Amount Paid:</strong> ৳ <%= totalAmount %></p>
+
+    <p><strong>User Name:</strong> <%= userName %></p>
+
+    <p><strong>Tour Title:</strong> <%= tourTitle %></p>
+
+    <p><strong>Booking Date:</strong> <%= bookingDate.toDateString() %></p>
+
+    <p><strong>Guest Count:</strong> <%= guestCount %></p>
+
+    <br>
+
+    <p>Thank you for your booking.</p>
+
+    <p>
+        <a href="/api/invoice/pdf/<%= transactionId %>">Download Invoice PDF</a>
+    </p>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h1>Invoice for Booking</h1>
+<p>payment ID:</p>
+<p>Amount Paid:</p>
+<p>Thank you for your booking</p>
+<p><a>Download Invoice pdf</a></p> -->

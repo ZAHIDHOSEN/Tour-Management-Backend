@@ -30,9 +30,21 @@ const createUser = async(payload: Partial<IUser>) =>{
 
 const updateUser = async(userId:string, payload:Partial<IUser>,decodedToken:JwtPayload) =>{
    
+  if(decodedToken.role === Role.USER || decodedToken.role === Role.GUIDE){
+    if(userId !== decodedToken.userId){
+      throw new AppError(401,"you are not authorized")
+    }
+
+  }
+
   const isUserExits = await User.findById(userId)
   if(!isUserExits){
     throw new AppError(httpStatus.NOT_FOUND, "User Not Found")
+  }
+
+  
+  if(decodedToken.role === Role.ADMIN && isUserExits.role ===Role.SUPER_ADMIN){
+    throw new AppError(401,"you are not authorized")
   }
 
 
@@ -41,24 +53,24 @@ const updateUser = async(userId:string, payload:Partial<IUser>,decodedToken:JwtP
   // password ---rehashing
   // admin and superAdmin can update the field 
   // promoting only super admin
-if(payload.role === Role.USER || decodedToken.role === Role.GUIDE){
+  if(payload.role){
+  if(decodedToken.role === Role.USER || decodedToken.role === Role.GUIDE){
   throw new AppError(httpStatus.FORBIDDEN, "You are not authorize")
   
 }
 
-if(payload.role ===Role.SUPER_ADMIN && decodedToken.role === Role.ADMIN){
-    throw new AppError(httpStatus.FORBIDDEN, "You are not authorize")
-}
+  }
+
+
+// if(payload.role ===Role.SUPER_ADMIN && decodedToken.role === Role.ADMIN){
+//     throw new AppError(httpStatus.FORBIDDEN, "You are not authorize")
+// }
 
 if(payload.isActive || payload.isDeleted || payload.isVerified){
   if(decodedToken.role === Role.USER || decodedToken.role ===Role.GUIDE){
     throw new AppError(httpStatus.FORBIDDEN, "You are not authorize")
 
   }
-}
-if(payload.password){
-  payload.password = await bcryptjs.hash(payload.password,envVars.BCRYPT_SALT_ROUND)
-
 }
 
 const newUpdatedUser = await User.findByIdAndUpdate(userId,payload,{new: true,runValidators:true})

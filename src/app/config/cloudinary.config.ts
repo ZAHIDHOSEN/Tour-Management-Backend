@@ -1,6 +1,10 @@
-import { v2 as cloudinary } from "cloudinary";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import { envVars } from "./env";
 import AppError from "../errHelpers/appError";
+import stream from "stream"
+
+
 
 
 cloudinary.config({
@@ -9,6 +13,34 @@ cloudinary.config({
     api_secret:envVars.CLOUDINARY.CLOUDINARY_API_SECRET
 
 })
+
+export const uploadBufferCloudinary = async(buffer:Buffer,filename:string):Promise<UploadApiResponse | undefined> =>{
+    try {
+        return new Promise((resolve,reject)=>{
+            const public_id =`pdf/${filename}-${Date.now()}`
+            const bufferStream = new stream.PassThrough();
+            bufferStream.end(buffer)
+
+            cloudinary.uploader.upload_stream(
+                {
+                   resource_type:"auto",
+                   public_id: public_id,
+                   folder:"pdf"
+                },
+                (error,result)=>{
+                    if(error){
+                        return reject(error);
+                    }
+                    resolve(result)
+                }
+            ).end(buffer)
+        })
+    } catch (error:any) {
+       console.log(error)
+       throw new AppError(401,`Error uploading file ${error.message}`)
+    }
+
+}
 
 export const deleteFromCloudinary = async(url:string) =>{
  try {

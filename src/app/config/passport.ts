@@ -25,17 +25,17 @@ passport.use(
 
          if(!isUserExit.isVerified){
         //   throw new AppError(httpStatus.BAD_REQUEST,"User is Verified")
-            return done(`user is not verified`)
+            return done(null,false,{message:`user is not verified`})
          }
 
            if(isUserExit.isActive === isActive.BLOCKED || isUserExit.isActive === isActive.INACTIVE){
         //   throw new AppError(httpStatus.BAD_REQUEST,"User is blocked")
-            return done(`User is blocked ${isUserExit.isActive}`)
+            return done(null,false,{message:`User is blocked ${isUserExit.isActive}`})
 
          }
          if(isUserExit.isDeleted === true){
         //   throw new AppError(httpStatus.BAD_REQUEST,"User is Deleted")
-           return done(`user is deleted`)
+           return done(null,false,{message:`user is deleted`})
 
          }
       
